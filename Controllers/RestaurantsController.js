@@ -1,0 +1,19 @@
+const Restaurant = require("../Modals/RestaurantModal");
+
+
+
+const addRestaurant =  async (req , res) => {
+  const rest = req.body;
+  await Restaurant.create(rest);
+  res.send("Insert sucess");
+}
+
+const getAllRestaurants = async (req, res) => {
+  const rests = await Restaurant.find({});
+  console.log(rests)
+  res.send({data : rests});
+};
+
+
+
+module.exports = { getAllRestaurants ,addRestaurant};
