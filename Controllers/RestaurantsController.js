@@ -11,7 +11,7 @@ const addRestaurant =  async (req , res) => {
 const getAllRestaurants = async (req, res) => {
   const rests = await Restaurant.find({});
   console.log(rests)
-  res.send({data : rests});
+  res.send(rests);
 };
 
 

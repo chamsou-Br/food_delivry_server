@@ -16,7 +16,7 @@ app.listen(PORT,console.log(
   `Server started on port ${PORT}`));
 
   // connect Database
-mongoose.connect("mongodb://localhost:27017/food_delivry",{useUnifiedTopology : true , useNewUrlParser : true});
+mongoose.connect("mongodb+srv://chamsou:rHvedZRezJpvQR6K@cluster0.6p19hhh.mongodb.net/?retryWrites=true&w=majority",{useUnifiedTopology : true , useNewUrlParser : true});
 mongoose.connection.once('open',()=> {
     console.log("dataBase is related sucessfully");
 })
