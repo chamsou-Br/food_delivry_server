@@ -9,9 +9,15 @@ const addRestaurant =  async (req , res) => {
 }
 
 const getAllRestaurants = async (req, res) => {
+try{
   const rests = await Restaurant.find({});
   console.log(rests)
   res.send(rests);
+}
+catch(err) {
+  console.log(err,"err");
+  res.send([]);
+}
 };
 
 
