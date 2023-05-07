@@ -3,14 +3,8 @@ const { getAllRestaurants, addRestaurant } = require("../Controllers/Restaurants
 const RestaurantRouter = express.Router();
 
 
-RestaurantRouter.use(express.json());
-RestaurantRouter.use(express.urlencoded({extended : true}));
-
-
 RestaurantRouter.get("/" , getAllRestaurants);
-RestaurantRouter.get("/tt",(req , res) => {
-    res.send("test")
-})
+
 RestaurantRouter.get('/test', (req , res) => {
     res.send([
         {
