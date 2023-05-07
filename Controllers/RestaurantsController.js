@@ -16,7 +16,7 @@ try{
 }
 catch(err) {
   console.log(err,"err");
-  res.send([]);
+  res.send(err + "err");
 }
 };
 
