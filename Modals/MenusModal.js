@@ -15,15 +15,9 @@ const MenusSchema = mongoose.Schema({
         type : String,
     },   
     avg : {
-        type :String,
+        type : String,
     },
     type : {
-        type : String ,
-    },
-    avg  : {
-        type : String ,
-    },
-    calorie : {
         type : String ,
     },
     calories : {
