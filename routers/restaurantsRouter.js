@@ -1,10 +1,11 @@
 const express = require("express");
-const { getAllRestaurants, addRestaurant } = require("../Controllers/RestaurantsController");
+const { getAllRestaurants, addRestaurant, getRestaurantById } = require("../Controllers/RestaurantsController");
 const { getAllMenusOfRest } = require("../Controllers/MenusController");
 const RestaurantRouter = express.Router();
 
 
 RestaurantRouter.get("/" , getAllRestaurants);
+RestaurantRouter.get("/:id" , getRestaurantById);
 RestaurantRouter.get("/:id/menus" , getAllMenusOfRest);
 RestaurantRouter.get('/test', (req , res) => {
     res.send([
