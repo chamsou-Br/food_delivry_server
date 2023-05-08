@@ -30,5 +30,5 @@ app.get('/', (req, res) => {
 })
 
 
-app.use("/menus",MenusRouter)
+app.use("/menus",MenusRouter);
 app.use('/restaurants',RestaurantRouter);

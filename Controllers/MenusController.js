@@ -10,13 +10,24 @@ const getAllMenusOfRest = async (req , res) => {
     }
 }
 
+const getMenuById = async (req , res) => {
+    try {
+        const menus = await Menus.findById(req.params.id);
+        if (menus) res.send(menus)
+        else res.send(null)
+    } catch (error) {
+        res.send(null)
+    }
+}
+
 const addMenusOfRest = async (req , res) => {
     try {
-        await Menus.create(req.body);
+        await Menus.create(req.body)
         res.send("insert sucessfully")
     }catch(err) {
+        console.log(err)
         res.send("insert failed")
     }
 }
 
-module.exports = {getAllMenusOfRest , addMenusOfRest}
+module.exports = {getAllMenusOfRest , addMenusOfRest , getMenuById}
