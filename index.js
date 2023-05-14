@@ -3,6 +3,7 @@ const cors = require("cors")
 const mongoose = require("mongoose");
 const RestaurantRouter = require("./routers/restaurantsRouter");
 const MenusRouter = require("./routers/menusRouter");
+const userRouter = require("./routers/userRouter");
 
 const app = express();
 
@@ -32,3 +33,4 @@ app.get('/', (req, res) => {
 
 app.use("/menus",MenusRouter);
 app.use('/restaurants',RestaurantRouter);
+app.use("/auth",userRouter)
