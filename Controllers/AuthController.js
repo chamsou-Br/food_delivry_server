@@ -27,6 +27,7 @@ const LoginContoller = async(req , res) => {
 
 const RegisterConroller = async(req , res) => {
     const data = req.body;
+    console.log(req.body)
           const {user , err} = await  User.register(data.fullName,data.email,data.password,data.phone , data.address , data.picture)
           if (err) {
               res.status(404).send(err);}
