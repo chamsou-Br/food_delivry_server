@@ -6,8 +6,7 @@ const LoginContoller = async(req , res) => {
        const {user,err} = await User.login(req.body.email,req.body.password);
        if (err) res.status(404).send(err) ;
        else {
-           console.log("sucess")
-           console.log(user,"cttrl")
+
         const token = await auth.getToken(user._id);
         res.cookie('step_service_save_your_time' , token,{
             httpOnly : true ,        
@@ -28,7 +27,7 @@ const LoginContoller = async(req , res) => {
 
 const RegisterConroller = async(req , res) => {
     const data = req.body;
-          const {user , err} = await  User.register(data.fullName,data.email,data.password)
+          const {user , err} = await  User.register(data.fullName,data.email,data.password,data.phone , data.address , data.picture)
           if (err) {
               res.status(404).send(err);}
           else {
