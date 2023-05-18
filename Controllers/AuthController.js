@@ -16,6 +16,9 @@ const LoginContoller = async(req , res) => {
         const userPayload = {
             email : user.email,
             fullName  : user.fullName,
+            address : user.address,
+            phone : user.phone,
+            picture : user.picture,
             token
         }
         res.status(200).send(userPayload);
@@ -37,6 +40,9 @@ const RegisterConroller = async(req , res) => {
             const userPayload = {
                 email : user.email,
                 fullName  : user.fullName,
+                address : user.address,
+                phone : user.phone,
+                picture : user.picture,
                 token
             }
             res.status(200).json(userPayload);
