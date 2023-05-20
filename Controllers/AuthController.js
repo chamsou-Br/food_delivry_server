@@ -8,7 +8,7 @@ const LoginContoller = async(req , res) => {
        else {
 
         const token = await auth.getToken(user._id);
-        res.cookie('step_service_save_your_time' , token,{
+        res.cookie('food_delivry' , token,{
             httpOnly : true ,        
             maxAge : 12 * 30 * 24 * 3600 * 1000,
         });
@@ -33,7 +33,7 @@ const RegisterConroller = async(req , res) => {
               res.status(404).send(err);}
           else {
             const token = await auth.getToken(user._id);
-            res.cookie('step_service_save_your_time' , token,{
+            res.cookie('food_delivry' , token,{
                 httpOnly : true ,        
                 maxAge : 12 * 30 * 24 * 3600 * 1000,
             });

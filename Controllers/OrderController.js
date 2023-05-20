@@ -1,0 +1,35 @@
+const Order = require("../Modals/orderModal")
+const jwt = require('jsonwebtoken');
+
+const getAllOrdersOfClient = async (req , res) => {
+    try { 
+        const orders = await Order.find({client :req.params.id })
+        if (orders) res.send(orders)
+        else res.send([])
+    } catch (error) {
+        res.statusCode(404)
+        res.send([])
+    }
+}
+
+const addOrder = async (req , res ) => {
+    try {
+        console.log(req.headers.authorization)
+        const authorization_header = req.headers.authorization;
+        let client;
+        if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
+            let token = authorization_header.toString().split(' ')[1]
+            client = jwt.verify(token, "food_delivry").id;
+        }else {
+            client = req.body.client
+        }
+        const order = await Order.create({...req.body,client: client});
+        res.status(200).send(order);
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(null)
+    }
+}
+
+
+module.exports = { getAllOrdersOfClient ,    addOrder }
