@@ -3,12 +3,14 @@ const jwt = require('jsonwebtoken');
 
 const getAllOrdersOfClient = async (req , res) => {
     try { 
-        const orders = await Order.find({client :req.params.id })
+        const orders = await Order.find({client :req.params.id }).populate('rest')
+        .populate('client')
+        .populate('orderItems.orderItem')
         if (orders) res.send(orders)
         else res.send([])
     } catch (error) {
-        res.statusCode(404)
-        res.send([])
+        console.log(error,"err")
+        res.status(400).send([])
     }
 }
 
