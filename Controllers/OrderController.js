@@ -16,7 +16,7 @@ const getAllOrdersOfClient = async (req , res) => {
 
 const addOrder = async (req , res ) => {
     try {
-        console.log(req.headers.authorization)
+        console.log(req.body)
         const authorization_header = req.headers.authorization;
         let client;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
@@ -29,7 +29,7 @@ const addOrder = async (req , res ) => {
         res.status(200).send(order);
     } catch (error) {
         console.log(error)
-        res.status(400).send(null)
+        res.send(error)
     }
 }
 
