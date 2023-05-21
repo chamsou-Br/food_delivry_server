@@ -23,7 +23,7 @@ const addOrder = async (req , res ) => {
             let token = authorization_header.toString().split(' ')[1]
             client = jwt.verify(token, "food_delivry").id;
         }else {
-            client = req.body.client
+            client = jwt.verify(req.body.client, "food_delivry").id; 
         }
         const order = await Order.create({...req.body,client: client});
         res.status(200).send(order);
