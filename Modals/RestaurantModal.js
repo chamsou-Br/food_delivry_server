@@ -14,7 +14,12 @@ const RestaurantsSchema = mongoose.Schema({
     mapX : {
         type : String,
     },
-    
+    delivry : {
+        type : String
+    },
+    codePromo : {
+        type : String
+    },
     mapY : {
         type :String,
     },

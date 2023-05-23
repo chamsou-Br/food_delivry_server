@@ -41,7 +41,6 @@ UserSchema.statics.login = async(email , password ) => {
             if (user) {
                 const auth = await bcrypt.compare(password , user.password);
                 if (auth) {
-                    console.log(user,"use")
                     return {user}
                 }
                 throw Error('incorrect Password');
