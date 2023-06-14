@@ -27,21 +27,21 @@ const jwt = require('jsonwebtoken');
             review.rating = req.body.rating;
             review.review = req.body.review;
             await review.save()
-            const reviewsOfRest =  await Review.find({rest : req.body.res});
+            const reviewsOfRest =  await Review.find({rest : req.body.rest});
             let rat = 0;
-            reviewsOfRest.map(item => {
-                rat += item.rating;
-            })
+            for (let i =  0 ; i < reviewsOfRest.length ; i++){
+                rat += reviewsOfRest[i].rating;
+            }
             const rest = await Restaurant.findById(req.body.rest);
             rest.avg = ( rat /reviewsOfRest.length ).toString() 
             await rest.save();
         }else {
             review  = await Review.create({...req.body,client : clientId})
-            const reviewsOfRest =  await Review.find({rest : req.body.res});
+            const reviewsOfRest =  await Review.find({rest : req.body.rest});
             let rat = 0;
-            reviewsOfRest.map(item => {
-                rat += item.rating;
-            })
+            for (let i =  0 ; i < reviewsOfRest.length ; i++){
+                rat += reviewsOfRest[i].rating;
+            }
             const rest = await Restaurant.findById(req.body.rest);
             rest.avg = ( rat /reviewsOfRest.length ).toString() 
             rest.review = (parseInt(rest.review) + 1 ).toString();
