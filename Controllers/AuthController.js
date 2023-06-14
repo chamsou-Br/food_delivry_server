@@ -59,6 +59,7 @@ const getProfileContoller = async(req , res) => {
 
 const EditProfileController = async( req , res) => {
     try {
+        console.log(req.body," edit")
         const authorization_header = req.headers.authorization;
         let clientId;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
@@ -85,7 +86,7 @@ const EditProfileController = async( req , res) => {
         res.status(200).send(userPayload);
         
     } catch (error) {
-        console.log(err)
+        console.log(error)
         res.status(400).send(null)
     }
 }
@@ -118,6 +119,7 @@ const RegisterConroller = async(req , res) => {
 
 const uploadPicture = async (req , res) => {
     try {
+        console.log(req.body)
         const authorization_header = req.headers.authorization;
         let clientId;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
@@ -144,7 +146,7 @@ const uploadPicture = async (req , res) => {
         res.status(200).send(userPayload);
         
     } catch (error) {
-        console.log(err)
+        console.log(error)
         res.status(400).send(null)
     }
 }
