@@ -93,7 +93,6 @@ const EditProfileController = async( req , res) => {
 
 const RegisterConroller = async(req , res) => {
     const data = req.body;
-    console.log(req.body)
           const {user , err} = await  User.register(data.fullName,data.email,data.password,data.phone , data.address , data.picture)
           if (err) {
               res.status(404).send(err);}
@@ -119,7 +118,6 @@ const RegisterConroller = async(req , res) => {
 
 const uploadPicture = async (req , res) => {
     try {
-        console.log(req.body)
         const authorization_header = req.headers.authorization;
         let clientId;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
@@ -132,7 +130,7 @@ const uploadPicture = async (req , res) => {
         let picture ;
         if (req.file && req.file.filename) picture = req.file.filename
         else picture = ""
-        user.picture = picture;
+        user.picture = "uploads/" + picture;
         await user.save();
         const token = await auth.getToken(user._id);
         const userPayload = {
