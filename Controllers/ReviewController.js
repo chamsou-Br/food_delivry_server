@@ -51,7 +51,7 @@ const jwt = require('jsonwebtoken');
         res.status(200).send(review);
     } catch (error) {
         console.log(error);
-        res.status(400).send(null)
+        res.status(400).send("err")
     }
 }
 

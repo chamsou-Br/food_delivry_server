@@ -28,6 +28,7 @@ const LoginContoller = async(req , res) => {
 
 const getProfileContoller = async(req , res) => {
     try{
+        console.log(req.body);
         const authorization_header = req.headers.authorization;
         let clientId;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
@@ -39,6 +40,7 @@ const getProfileContoller = async(req , res) => {
         }
         const user = await User.findById(clientId);
         const token = await auth.getToken(user._id);
+        console.log(user);
         const userPayload = {
             email : user.email,
             fullName  : user.fullName,
@@ -50,7 +52,7 @@ const getProfileContoller = async(req , res) => {
         res.status(200).send(userPayload);
     }catch(err){
         console.log(err)
-        res.status(400).send(null)
+        res.status(400).send(err)
     }
 
 }
