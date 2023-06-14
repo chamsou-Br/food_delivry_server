@@ -1,5 +1,18 @@
 const jwt = require('jsonwebtoken');
-const User = require("../Modals/userModal")
+const User = require("../Modals/userModal");
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads');
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop());
+    }
+  });
+  
+  const upload = multer({ storage: storage });
 
 const checkuser =  (req , res , next) => {
     const token = req.cookies.jwt ;
@@ -53,4 +66,4 @@ const HandlError = (err) => {
     return errors
 }
 
-module.exports = {getToken , HandlError , checkuser}
+module.exports = {getToken , HandlError , checkuser , upload}

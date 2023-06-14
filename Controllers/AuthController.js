@@ -65,7 +65,7 @@ const EditProfileController = async( req , res) => {
             let token = authorization_header.toString().split(' ')[1]
             clientId = jwt.verify(token, "food_delivry").id;
         }else {
-            clientId = jwt.verify(req.body.client, "food_delivry").id; 
+            clientId = jwt.verify(req.body.token, "food_delivry").id; 
         }
         const user = await User.findById(clientId);
         user.email = req.body.email;
@@ -114,4 +114,39 @@ const RegisterConroller = async(req , res) => {
           }
 }
 
-module.exports = {RegisterConroller , LoginContoller , getProfileContoller , EditProfileController}
+
+
+const uploadPicture = async (req , res) => {
+    try {
+        const authorization_header = req.headers.authorization;
+        let clientId;
+        if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
+            let token = authorization_header.toString().split(' ')[1]
+            clientId = jwt.verify(token, "food_delivry").id;
+        }else {
+            clientId = jwt.verify(req.body.client, "food_delivry").id; 
+        }
+        const user = await User.findById(clientId);
+        let picture ;
+        if (req.file && req.file.filename) picture = req.file.filename
+        else picture = ""
+        user.picture = picture;
+        await user.save();
+        const token = await auth.getToken(user._id);
+        const userPayload = {
+            email : user.email,
+            fullName  : user.fullName,
+            address : user.address,
+            phone : user.phone,
+            picture : user.picture,
+            token
+        }
+        res.status(200).send(userPayload);
+        
+    } catch (error) {
+        console.log(err)
+        res.status(400).send(null)
+    }
+}
+
+module.exports = {RegisterConroller , LoginContoller , getProfileContoller , EditProfileController , uploadPicture}
