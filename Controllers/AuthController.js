@@ -127,10 +127,11 @@ const uploadPicture = async (req , res) => {
             clientId = jwt.verify(req.body.client, "food_delivry").id; 
         }
         const user = await User.findById(clientId);
+        if (!user) res.status(400).send("user doesnt existe")
         let picture ;
-        if (req.file && req.file.filename) picture = req.file.filename
+        if (req.file && req.file.filename) picture = "uploads/" + req.file.filename
         else picture = ""
-        user.picture = "uploads/" + picture;
+        user.picture = picture;
         await user.save();
         const token = await auth.getToken(user._id);
         const userPayload = {
