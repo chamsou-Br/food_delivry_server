@@ -8,8 +8,7 @@ const addRestaurant =  async (req , res) => {
     await Restaurant.create(rest);
     res.send("Insert sucess");
   } catch (error) {
-    res.statusCode(404)
-    res.send("failed")
+    res.status(400).send("failed")
   }
 
 }
@@ -19,8 +18,7 @@ const getRestaurantById = async (req , res) => {
     const rest = await Restaurant.findById(req.params.id);
     res.send(rest);
   } catch (error) {
-    res.statusCode(404)
-    res.send(null)
+    res.status(400).send(null)
   }
 }
 
@@ -31,8 +29,8 @@ try{
   res.send(rests);
 }
 catch(err) {
-  res.statusCode(404)
-  res.send(err + "err");
+  console.log(err)
+  res.status(400).send(err + "err");
 }
 };
 
