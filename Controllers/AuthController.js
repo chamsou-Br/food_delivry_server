@@ -4,25 +4,33 @@ const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken');
 
 const LoginContoller = async(req , res) => {
-       const {user,err} = await User.login(req.body.email,req.body.password);
-       if (err) res.status(404).send(err) ;
-       else {
-
-        const token = await auth.getToken(user._id);
-        res.cookie('food_delivry' , token,{
-            httpOnly : true ,        
-            maxAge : 12 * 30 * 24 * 3600 * 1000,
-        });
-        const userPayload = {
-            email : user.email,
-            fullName  : user.fullName,
-            address : user.address,
-            phone : user.phone,
-            picture : user.picture,
-            token
+    try {
+        console.log(req.body)
+        const {user,err} = await User.login(req.body.email,req.body.password);
+        if (err) {
+            console.log(err)
+            res.status(404).send(err) ;}
+        else {
+ 
+         const token = await auth.getToken(user._id);
+         res.cookie('food_delivry' , token,{
+             httpOnly : true ,        
+             maxAge : 12 * 30 * 24 * 3600 * 1000,
+         });
+         const userPayload = {
+             email : user.email,
+             fullName  : user.fullName,
+             address : user.address,
+             phone : user.phone,
+             picture : user.picture,
+             token
+         }
+         res.status(200).send(userPayload);
         }
-        res.status(200).send(userPayload);
-       }
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(error)
+    }
 
 }
 
