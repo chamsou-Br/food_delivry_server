@@ -4,11 +4,11 @@ const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken');
 
 const LoginContoller = async(req , res) => {
-    try {
+
         console.log(req.body)
         const {user,err} = await User.login(req.body.email,req.body.password);
         if (err) {
-            console.log(err)
+            console.log(err,'ert')
             res.status(404).send(err) ;}
         else {
  
@@ -27,11 +27,6 @@ const LoginContoller = async(req , res) => {
          }
          res.status(200).send(userPayload);
         }
-    } catch (error) {
-        console.log(error)
-        res.status(400).send(error)
-    }
-
 }
 
 const getProfileContoller = async(req , res) => {
