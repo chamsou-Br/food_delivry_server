@@ -4,6 +4,7 @@ const { upload } = require("../middlware/auth");
 const userRouter = express.Router();
 
 userRouter.post("/login",LoginContoller)
+userRouter.post("/log",LoginContoller)
 userRouter.post("/profile",getProfileContoller)
 userRouter.post("/edit",EditProfileController)
 userRouter.post("/register",RegisterConroller)

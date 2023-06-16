@@ -8,6 +8,7 @@ const addRestaurant =  async (req , res) => {
     await Restaurant.create(rest);
     res.send("Insert sucess");
   } catch (error) {
+    console.log(error)
     res.status(400).send("failed")
   }
 
@@ -18,6 +19,7 @@ const getRestaurantById = async (req , res) => {
     const rest = await Restaurant.findById(req.params.id);
     res.send(rest);
   } catch (error) {
+    console.log(error)
     res.status(400).send(null)
   }
 }
@@ -25,7 +27,6 @@ const getRestaurantById = async (req , res) => {
 const getAllRestaurants = async (req, res) => {
 try{
   const rests = await Restaurant.find({});
-  console.log(rests)
   res.send(rests);
 }
 catch(err) {
