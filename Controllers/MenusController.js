@@ -14,7 +14,6 @@ const getAllMenusOfRest = async (req , res) => {
 const getMenuById = async (req , res) => {
     try {
         const menus = await Menus.findById(req.params.id);
-        console.log(menus)
         if (menus) res.send(menus)
         else res.send(null)
     } catch (error) {

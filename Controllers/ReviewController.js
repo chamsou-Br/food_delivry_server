@@ -65,8 +65,20 @@ const jwt = require('jsonwebtoken');
         }else {
             clientId = jwt.verify(req.body.client, "food_delivry").id; 
         }
+
         const review  = await Review.findOne({rest : req.params.id,client :clientId });
-        res.status(200).send(review)
+        if (review == null ){
+            res.status(200).send({
+                _id: "-1",
+                rest: "-1",
+                client: "-1",
+                review: '',
+                rating: 0,
+            })
+        }else{
+            res.status(200).send(review)
+        }
+
     } catch (error) {
         console.log(error)
         res.status(400).send(null)

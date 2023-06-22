@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken');
 
 const LoginContoller = async(req , res) => {
-console.log(req.body,"auth");
+
         const {user,err} = await User.login(req.body.email,req.body.password);
         if (err) {
             console.log(err,'ert')
@@ -32,7 +32,6 @@ console.log(req.body,"auth");
 const LoginWithgoogleContoller = async(req , res) => {
 
     const data = req.body
-    console.log(data)
     const {user,err} = await User.loginWithGoogle(data.googleIdToken,data.fullName,data.email,data.phone , data.address , data.picture);
     if (err) {
         console.log(err,'ert')
@@ -57,19 +56,16 @@ const LoginWithgoogleContoller = async(req , res) => {
 
 const getProfileContoller = async(req , res) => {
     try{
-        console.log(req.body);
         const authorization_header = req.headers.authorization;
         let clientId;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
             let token = authorization_header.toString().split(' ')[1]
             clientId = jwt.verify(token, "food_delivry").id;
         }else {
-            console.log(req.body.client,"client")
             clientId = jwt.verify(req.body.client, "food_delivry").id; 
         }
         const user = await User.findById(clientId);
         const token = await auth.getToken(user._id);
-        console.log(user);
         const userPayload = {
             email : user.email,
             fullName  : user.fullName,

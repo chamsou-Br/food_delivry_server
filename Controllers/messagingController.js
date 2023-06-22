@@ -29,7 +29,6 @@ const jwt = require('jsonwebtoken');
 
 const addTokenToUser = async (req , res) =>{
 try {
-    console.log(req.body,'add token')
         let userId;
         userId = await jwt.verify(req.body.client,"food_delivry").id; 
         const user = await User.findById(userId)
