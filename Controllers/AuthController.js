@@ -4,8 +4,7 @@ const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken');
 
 const LoginContoller = async(req , res) => {
-
-        console.log(req.body)
+console.log(req.body,"auth");
         const {user,err} = await User.login(req.body.email,req.body.password);
         if (err) {
             console.log(err,'ert')
@@ -23,10 +22,37 @@ const LoginContoller = async(req , res) => {
              address : user.address,
              phone : user.phone,
              picture : user.picture,
-             token
+             token,
+             tokens : user.tokens
          }
          res.status(200).send(userPayload);
         }
+}
+
+const LoginWithgoogleContoller = async(req , res) => {
+
+    const data = req.body
+    console.log(data)
+    const {user,err} = await User.loginWithGoogle(data.googleIdToken,data.fullName,data.email,data.phone , data.address , data.picture);
+    if (err) {
+        console.log(err,'ert')
+        res.status(404).send(err) ;}
+    else {
+     const token = await auth.getToken(user._id);
+     res.cookie('food_delivry' , token,{
+         httpOnly : true ,        
+         maxAge : 12 * 30 * 24 * 3600 * 1000,
+     });
+     const userPayload = {
+         email : user.email,
+         fullName  : user.fullName,
+         address : user.address,
+         phone : user.phone,
+         picture : user.picture,
+         token
+     }
+     res.status(200).send(userPayload);
+    }
 }
 
 const getProfileContoller = async(req , res) => {
@@ -62,7 +88,6 @@ const getProfileContoller = async(req , res) => {
 
 const EditProfileController = async( req , res) => {
     try {
-        console.log(req.body," edit")
         const authorization_header = req.headers.authorization;
         let clientId;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
@@ -127,25 +152,28 @@ const uploadPicture = async (req , res) => {
             let token = authorization_header.toString().split(' ')[1]
             clientId = jwt.verify(token, "food_delivry").id;
         }else {
-            clientId = jwt.verify(req.body.client, "food_delivry").id; 
+            clientId = jwt.verify(req.body.token, "food_delivry").id; 
         }
         const user = await User.findById(clientId);
         if (!user) res.status(400).send("user doesnt existe")
-        let picture ;
-        if (req.file && req.file.filename) picture = "uploads/" + req.file.filename
-        else picture = ""
-        user.picture = picture;
-        await user.save();
-        const token = await auth.getToken(user._id);
-        const userPayload = {
-            email : user.email,
-            fullName  : user.fullName,
-            address : user.address,
-            phone : user.phone,
-            picture : user.picture,
-            token
+        else {
+            let picture ;
+            if (req.file && req.file.filename) picture = "uploads/" + req.file.filename
+            else picture = ""
+            user.picture = picture;
+            await user.save();
+            const token = await auth.getToken(user._id);
+            const userPayload = {
+                email : user.email,
+                fullName  : user.fullName,
+                address : user.address,
+                phone : user.phone,
+                picture : user.picture,
+                token
+            }
+            res.status(200).send(userPayload);
         }
-        res.status(200).send(userPayload);
+
         
     } catch (error) {
         console.log(error)
@@ -153,4 +181,4 @@ const uploadPicture = async (req , res) => {
     }
 }
 
-module.exports = {RegisterConroller , LoginContoller , getProfileContoller , EditProfileController , uploadPicture}
+module.exports = {RegisterConroller ,LoginWithgoogleContoller, LoginContoller , getProfileContoller , EditProfileController , uploadPicture}

@@ -11,6 +11,9 @@ const UserSchema = mongoose.Schema({
         required : [true,'Please enter an fullName'], 
         unique : true,
     },
+    googleIdToken : {
+        type : String,
+    },
     email : {
         type : String ,
         required : [true,'Please enter an Email'],
@@ -18,10 +21,9 @@ const UserSchema = mongoose.Schema({
         unique : true,
         lowercase : true
     },
+    tokens: [String],
     password : {
         type :String,
-        required :[true,'Please enter an PassWord'],
-        min : [8,'Minimum password length is 6 characters'],
     },
     phone : {
         type : String
@@ -54,6 +56,30 @@ UserSchema.statics.login = async(email , password ) => {
     }
 }
 
+UserSchema.statics.loginWithGoogle = async(googleIdToken , fullName , email  , phone ,address , picture   ) => {
+    try {
+            const user = await User.findOne({googleIdToken});
+            console.log(user,googleIdToken);
+            if (!user || !user.googleIdToken) {
+                const newUser = await User.create({
+                    fullName : fullName,
+                    email : email ,
+                    phone,
+                    address , 
+                    password: null,
+                    googleIdToken : googleIdToken,
+                    picture
+                });
+                return {user : newUser}
+            }
+            return {user}
+    }catch (err) {
+        const errour = auth.HandlError(err);
+        console.log(err)
+        return {err  : errour}
+    }
+}
+
 UserSchema.statics.register = async(fullName , email , password , phone ,address , picture  ) => {
     try{
 
@@ -64,6 +90,7 @@ UserSchema.statics.register = async(fullName , email , password , phone ,address
            } else {
                throw Error("password min length")
            } 
+
             const user = await User.create({
                 fullName : fullName,
                 email : email ,

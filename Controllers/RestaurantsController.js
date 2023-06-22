@@ -26,8 +26,14 @@ const getRestaurantById = async (req , res) => {
 
 const getAllRestaurants = async (req, res) => {
 try{
+
+  
   const rests = await Restaurant.find({});
-  res.send(rests);
+  if (req.query.search) {
+    res.send(rests.filter(it => it.name.includes(req.query.search)));
+  }else {
+    res.send(rests)
+  }
 }
 catch(err) {
   console.log(err)
@@ -35,6 +41,22 @@ catch(err) {
 }
 };
 
+const getRestaurntsSearch = async (req, res) => {
+  try{
+    const rests = await Restaurant.find({});
+    if (req.query.search) {
+      res.send(rests.filter(it => it.name.includes(req.query.search)));
+    }else {
+      res.send(rests)
+    }
+    
+  }
+  catch(err) {
+    console.log(err)
+    res.status(400).send(err + "err");
+  }
+  };
 
 
-module.exports = { getAllRestaurants ,addRestaurant , getRestaurantById};
+
+module.exports = { getAllRestaurants ,getRestaurntsSearch,addRestaurant , getRestaurantById};

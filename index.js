@@ -6,6 +6,7 @@ const MenusRouter = require("./routers/menusRouter");
 const userRouter = require("./routers/userRouter");
 const OrderRouter = require("./routers/orderRouter");
 const ReviewRouter = require("./routers/reviewRouter");
+const NotifRouter = require("./routers/notifRouter");
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.listen(PORT,console.log(
   `Server started on port ${PORT}`));
 
   // connect Database
-mongoose.connect("mongodb+srv://chamsou:rHvedZRezJpvQR6K@cluster0.6p19hhh.mongodb.net/?retryWrites=true&w=majority",{useUnifiedTopology : true , useNewUrlParser : true});
+mongoose.connect("mongodb://localhost:27017/food_delivry" /*"mongodb+srv://chamsou:rHvedZRezJpvQR6K@cluster0.6p19hhh.mongodb.net/?retryWrites=true&w=majority"*/,{useUnifiedTopology : true , useNewUrlParser : true});
 mongoose.connection.once('open',()=> {
     console.log("dataBase is related sucessfully");
 })
@@ -39,3 +40,4 @@ app.use('/restaurants',RestaurantRouter);
 app.use("/auth",userRouter)
 app.use("/order",OrderRouter)
 app.use("/review",ReviewRouter)
+app.use("/notif",NotifRouter)

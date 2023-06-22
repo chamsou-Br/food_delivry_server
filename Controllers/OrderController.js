@@ -16,7 +16,6 @@ const getAllOrdersOfClient = async (req , res) => {
 
 const addOrder = async (req , res ) => {
     try {
-        console.log(req.body)
         const authorization_header = req.headers.authorization;
         let client;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
