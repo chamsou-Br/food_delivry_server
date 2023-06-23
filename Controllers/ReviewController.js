@@ -57,6 +57,7 @@ const jwt = require('jsonwebtoken');
 
  const getReviewOfClientToRest = async (req , res) => {
     try {
+        console.log(req.body,req.params.id)
         const authorization_header = req.headers.authorization;
         let clientId;
         if (authorization_header && authorization_header.toString().startsWith('Bearer ') ){
@@ -65,8 +66,9 @@ const jwt = require('jsonwebtoken');
         }else {
             clientId = jwt.verify(req.body.client, "food_delivry").id; 
         }
-
+        console.log(clientId)
         const review  = await Review.findOne({rest : req.params.id,client :clientId });
+        console.log(review)
         if (review == null ){
             res.status(200).send({
                 _id: "-1",
