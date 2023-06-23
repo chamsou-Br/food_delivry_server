@@ -9,7 +9,6 @@ const UserSchema = mongoose.Schema({
     fullName : {
         type : String ,
         required : [true,'Please enter an fullName'], 
-        unique : true,
     },
     googleIdToken : {
         type : String,
@@ -68,6 +67,7 @@ UserSchema.statics.loginWithGoogle = async(googleIdToken , fullName , email  , p
                     address , 
                     password: null,
                     googleIdToken : googleIdToken,
+                    tokens : [],
                     picture
                 });
                 return {user : newUser}
@@ -97,6 +97,7 @@ UserSchema.statics.register = async(fullName , email , password , phone ,address
                 password : passwordHash,
                 phone,
                 address , 
+                tokens : [],
                 picture
             });
             return {user}
